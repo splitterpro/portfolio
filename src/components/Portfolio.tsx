@@ -10,6 +10,18 @@ import { iconInfo, projects, skillInfo } from './Utility/PortfolioUtility'
 
 const Portfolio = () => {
 
+    const downloadFile = async (): Promise<void> => {
+        const response = await fetch(`${process.env.PUBLIC_URL}/resume.pdf`);
+        const blob: Blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'My_Resume.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+
     return (
         <div className='portfolio-container'>
             <div className='portfolio-head'>
@@ -24,7 +36,7 @@ const Portfolio = () => {
                         <p>Passionate about building interactive and scalable frontend apps.</p>
                         <div className='hero-button'>
                             <Button variant='outline-dark'>View My Work</Button>
-                            <Button variant='outline-dark'>Download Resume</Button>
+                            <Button variant='outline-dark' onClick={downloadFile}>Download Resume</Button>
                         </div>
                     </div>
 
