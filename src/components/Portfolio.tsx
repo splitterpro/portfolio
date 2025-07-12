@@ -10,17 +10,25 @@ import { onFormatSkillInfo, onGetIconInfo } from './Utility/PortfolioUtility'
 
 const Portfolio = () => {
 
-    //ref
     const projectsRef = useRef<any>(null);
 
     const [portfolioInfo, setPortfolioInfo] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [revealDone, setRevealDone] = useState(false);
 
     useEffect(() => {
-
         fetch("https://api.jsonbin.io/v3/b/6871df506063391d31abdd21")
             .then((res) => res.json())
-            .then((json) => setPortfolioInfo(json.record))
-            .catch((err) => console.error("Error fetching JSONBin:", err));
+            .then((json) => {
+                setPortfolioInfo(json.record);
+                setTimeout(() => setRevealDone(true), 1200); // trigger reveal
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error fetching JSONBin:", err);
+                setRevealDone(true);
+                setLoading(false);
+            });
     }, []);
 
     const scrollToProjects = () => {
@@ -32,8 +40,13 @@ const Portfolio = () => {
         window.location.href = url;
     };
 
-    console.log("ad", portfolioInfo);
-
+    if (!revealDone) {
+        return (
+            <div className={`circle-reveal ${!loading ? 'expand' : ''}`}>
+                <div className="inner-circle"></div>
+            </div>
+        );
+    }
 
     return (
         <div className='portfolio-container'>
