@@ -10,16 +10,9 @@ import { iconInfo, projects, skillInfo } from './Utility/PortfolioUtility'
 
 const Portfolio = () => {
 
-    const downloadFile = async (): Promise<void> => {
-        const response = await fetch(`${process.env.PUBLIC_URL}/resume.pdf`);
-        const blob: Blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'My_Resume.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
+    const downloadFile = () => {
+        const url = "https://drive.google.com/uc?export=download&id=1-lFgHVpUv0jg-buz-yYL2R1RkWaFta_j";
+        window.location.href = url;
     };
 
     return (
